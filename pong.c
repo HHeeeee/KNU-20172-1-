@@ -70,7 +70,7 @@ int main()
 void start_round(){
 	clock_resume();
 	init_ball_pos();
-	update_left_header(balls_left);
+	//update_left_header(balls_left);
 	mvaddch(the_ball.y_pos, the_ball.x_pos, the_ball.symbol); //serve ball
 	refresh();
 	signal(SIGALRM, sigarlm_handler);		/* re-enable handler	*/
@@ -91,7 +91,7 @@ void set_up()
 	paddle_init(&the_paddle, RIGHT);
 	paddle_init(&the_paddle2, LEFT);
 	clock_init();
-	print_headers();
+	//print_headers();
 
 	signal(SIGINT, SIG_IGN);	/* ignore SIGINT	*/
 	refresh();
@@ -105,17 +105,17 @@ void set_up()
 	@param	void
 	@return void
 */
-void print_headers(){
+/*void print_headers(){
 	update_left_header(balls_left);
 	update_right_header();
 }
 
-/**
+*
 	Outputs the balls left by concatenating the actual number of balls left
 	with the "BALLS LEFT:" string. 
 	@params	ballnum: the number of balls left
 	@return void
-**/
+**//*
 void update_left_header(int ballnum){
 	int i,j,header_len = 14;
 	char char_array[header_len];
@@ -123,7 +123,7 @@ void update_left_header(int ballnum){
 
 	if(ballnum<0) return; //no need to update after game over.
 
-	/*build output string*/
+	//build output string
 	snprintf(char_array,header_len,"BALLS LEFT: %d",ball_num);
 
 	//write output string to the screen
@@ -132,17 +132,17 @@ void update_left_header(int ballnum){
 	}
 }
 
-/**
+*//*
 	Gets the clock's current string ouput and writes it to the screen 
 	@params	none
 	@return void
 **/
-void update_right_header(){
+/*void update_right_header(){
 	int header_len = 17;
 	char char_array[header_len];
 	memset(char_array, '\0', header_len); 
 	int i,j,startingX=RIGHT_EDGE - header_len;
-	get_time(char_array); /* get the clock's string output from the clock object*/
+	get_time(char_array); 
 
 	//write clock output to the screen
 	for(i=startingX,j=0;j<header_len-1;i++,j++){
@@ -150,7 +150,6 @@ void update_right_header(){
 	}
 }
 
-/*
 	Initializes the ball's starting position, speed, and direction
 	@params	none
 	@return void
@@ -233,7 +232,7 @@ void move_ball(){
 
 	/* check for collision or game lose */
 	if (bounce_or_lose(&the_ball)==-1) {
-		update_left_header(--balls_left); /* lost a ball*/
+		//update_left_header(--balls_left); /* lost a ball*/
 		clock_pause(); /*pause game clock*/
 	}
 	refresh();	
@@ -253,7 +252,7 @@ void sigarlm_handler(int s)
 	
 	ball_moved = ( the_ball.delay > 0 && --the_ball.count == 0); 
 	clock_tick();  /* make a clock tick*/
-	update_right_header(); /* update the clock output*/
+	//update_right_header(); /* update the clock output*/
 
 	if (ball_moved){
 		move_ball();
