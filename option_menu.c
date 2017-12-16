@@ -37,9 +37,9 @@ int option_menu(void)
 				case '2':
 					tty_mode(1);
 					 return 2;
-//				case '3':
-//					tty_mode(1);
-//					 return 3;
+				case '3':
+					tty_mode(1);
+					 return 3;
 			}
 		
 		}
