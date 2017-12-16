@@ -31,6 +31,7 @@ static void move_ball();
 static struct pppaddle the_paddle;
 static struct pppaddle the_paddle2;
 static struct pppaddle AI_paddle;
+static int scoreA, scoreB;
 
 int main()
 {
@@ -83,7 +84,7 @@ int main()
 void start_round(){
 	clock_resume();
 	init_ball_pos();
-	//update_left_header(balls_left);
+	update_left_header(balls_left);
 	mvaddch(the_ball.y_pos, the_ball.x_pos, the_ball.symbol); //serve ball
 	refresh();
 	signal(SIGALRM, sigarlm_handler);		/* re-enable handler	*/
@@ -104,7 +105,7 @@ void set_up()
 	paddle_init(&the_paddle, RIGHT);
 	paddle_init(&the_paddle2, LEFT);
 	clock_init();
-	//print_headers();
+	print_headers();
 
 	signal(SIGINT, SIG_IGN);	/* ignore SIGINT	*/
 	refresh();
@@ -118,17 +119,17 @@ void set_up()
 	@param	void
 	@return void
 */
-/*void print_headers(){
+void print_headers(){
 	update_left_header(balls_left);
-	update_right_header();
+//	update_right_header();
 }
 
-*
+/*
 	Outputs the balls left by concatenating the actual number of balls left
 	with the "BALLS LEFT:" string. 
 	@params	ballnum: the number of balls left
 	@return void
-**//*
+**/
 void update_left_header(int ballnum){
 	int i,j,header_len = 14;
 	char char_array[header_len];
@@ -137,7 +138,7 @@ void update_left_header(int ballnum){
 	if(ballnum<0) return; //no need to update after game over.
 
 	//build output string
-	snprintf(char_array,header_len,"BALLS LEFT: %d",ball_num);
+	snprintf(char_array,header_len,"SCORE   %d : %d",scoreA, scoreB);
 
 	//write output string to the screen
 	for(i=LEFT_EDGE,j=0;j<header_len-1;i++,j++){
@@ -145,7 +146,7 @@ void update_left_header(int ballnum){
 	}
 }
 
-*//*
+/*
 	Gets the clock's current string ouput and writes it to the screen 
 	@params	none
 	@return void
@@ -245,7 +246,7 @@ void move_ball(){
 
 	/* check for collision or game lose */
 	if (bounce_or_lose(&the_ball)==-1) {
-		//update_left_header(--balls_left); /* lost a ball*/
+		update_left_header(--balls_left); /* lost a ball*/
 		clock_pause(); /*pause game clock*/
 	}
 	refresh();	

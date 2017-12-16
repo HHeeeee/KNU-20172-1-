@@ -5,11 +5,11 @@
 #include	<stdlib.h>
 #include	<string.h>
 #include	"alarmlib.h"
-
+#include 	<termios.h>
 
 #define	BLANK		' '
 #define	DFL_SYMBOL	'O'
-#define PADDING		3
+#define PADDING		4
 #define	TOP_ROW		PADDING
 #define	BOT_ROW 	LINES-PADDING
 #define	LEFT_EDGE	PADDING
@@ -20,7 +20,7 @@
 #define	MAX_DELAY		4
 
 
-#define INIT_BALLS	2		/* Maximum number of balls is 9 */
+#define INIT_BALLS	5		/* Maximum number of balls is 9 */
 
 
 /**
