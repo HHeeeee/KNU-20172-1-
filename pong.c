@@ -43,9 +43,9 @@ int main()
 	if(display_menu()==1) // AI mode
 	{
 		level=option_menu();
-		if(level ==1) // EASY
-		else if(level==2)//NORMAL
-		else//HARD
+//		if(level ==1) // EASY
+//		else if(level==2)//NORMAL
+//		else//HARD
 	}
 	else		      //multiplay 
 	{
