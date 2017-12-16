@@ -20,6 +20,7 @@
 
 
 struct pppaddle the_paddle;
+struct pppaddle the_paddle2;
 /*
 	Initialize the paddle's properties
 	@params 	none
@@ -34,12 +35,12 @@ void paddle_init(){
 	mvvline(the_paddle.pad_top,the_paddle.pad_col,the_paddle.pad_char,PAD_LEN);
 }
 void paddle_init2(){
-	the_paddle.pad_top2 = START_TOP;
-	the_paddle.pad_bot2 = the_paddle.pad_top2 + PAD_LEN;
-	the_paddle.pad_col2 = LEFT_EDGE -1;
-	the_paddle.pad_char2 = PAD_SYMBOL;
+	the_paddle2.pad_top = START_TOP;
+	the_paddle2.pad_bot = the_paddle2.pad_top + PAD_LEN;
+	the_paddle2.pad_col = LEFT_EDGE;
+	the_paddle2.pad_char = PAD_SYMBOL;
 
-	mvvline(the_paddle.pad_top2,the_paddle.pad_col2,the_paddle.pad_char2,PAD_LEN);
+	mvvline(the_paddle2.pad_top,the_paddle2.pad_col,the_paddle2.pad_char,PAD_LEN);
 }
 
 /*
@@ -96,16 +97,16 @@ void paddle_up2(){
 	moved = 0;
 
 	//check if pad_top is not trying to go outside the court
-	if((the_paddle.pad_top2-1)>TOP_ROW){
-		bot_cur = the_paddle.pad_bot2;
-		the_paddle.pad_top2-=1;
-		the_paddle.pad_bot2-=1;
+	if((the_paddle2.pad_top-1)>TOP_ROW){
+		bot_cur = the_paddle2.pad_bot;
+		the_paddle2.pad_top-=1;
+		the_paddle2.pad_bot-=1;
 		moved = 1;		
 	} 
 
 	if (moved){
-		mvaddch(the_paddle.pad_top2, the_paddle.pad_col2, the_paddle.pad_char2);
-		mvaddch(bot_cur, the_paddle.pad_col2, BLANK);
+		mvaddch(the_paddle2.pad_top, the_paddle2.pad_col, the_paddle2.pad_char);
+		mvaddch(bot_cur, the_paddle2.pad_col, BLANK);
 	}	
 }
 
@@ -120,16 +121,16 @@ void paddle_down2(){
 	moved = 0;
 
 	//check if pad_top is not trying to go outside the court
-	if((the_paddle.pad_bot2+1)<BOT_ROW){
-		top_cur = the_paddle.pad_top2;
-		the_paddle.pad_top2+=1;
-		the_paddle.pad_bot2+=1;
+	if((the_paddle2.pad_bot+1)<BOT_ROW){
+		top_cur = the_paddle2.pad_top;
+		the_paddle2.pad_top+=1;
+		the_paddle2.pad_bot+=1;
 		moved = 1;		
 	} 
 
 	if (moved){
-		mvaddch(the_paddle.pad_bot2, the_paddle.pad_col2, the_paddle.pad_char2);
-		mvaddch(top_cur, the_paddle.pad_col2, BLANK);
+		mvaddch(the_paddle2.pad_bot, the_paddle2.pad_col, the_paddle2.pad_char);
+		mvaddch(top_cur, the_paddle2.pad_col, BLANK);
 	}
 	
 }
@@ -154,7 +155,7 @@ int paddle_contact(int y,int x){
 int paddle_contact2(int y,int x){
 	int i;
 	if(x-2 == LEFT_EDGE){
-		for(i=the_paddle.pad_top2;i<=the_paddle.pad_bot2;i++){
+		for(i=the_paddle2.pad_top;i<=the_paddle2.pad_bot;i++){
 			if(y==i){
 				return 1;
 			}

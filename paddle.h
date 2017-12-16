@@ -14,11 +14,7 @@ struct pppaddle {
 		int pad_top,  /* top row of the paddle */
 			pad_bot,  /* bottom row of the paddle */
 			pad_col;
-		int pad_top2,
-			pad_bot2,
-			pad_col2;  /* the paddle's column (fixed through the game)*/
 		char pad_char;
-		char pad_char2; /* symbol for drawing/representing the paddle on screen*/
 };
 
 /*
@@ -27,7 +23,7 @@ struct pppaddle {
 	@return 	void
 */
 void paddle_init();
-
+void paddle_init2();
 /*
 	Moves the paddle up one row. 
 	@params		none
