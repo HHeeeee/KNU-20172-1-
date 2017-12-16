@@ -1,6 +1,4 @@
-#include <stdio.h>
-#include <termios.h>
-#include<fcntl.h>
+#include "pong.h"
 
 void tty_mode(int);
 void set_noecho();
@@ -9,7 +7,6 @@ int display_menu(void)
 {
 //	int input;
 	char menu ;
-	system("clear");
 	tty_mode(0);
 	set_noecho();
 		system("clear");
@@ -33,9 +30,11 @@ int display_menu(void)
 
 				case '1':
 					tty_mode(1);
+					system("clear");
 					 return 1;
 				case '2':
 					tty_mode(1);
+					system("clear");
 					 return 2;
 //				case '3':
 //					tty_mode(1);
