@@ -8,6 +8,8 @@
 #define		PAD_SYMBOL	'#'
 #define 	START_TOP	PADDING+3
 #define		PAD_LEN		0.33*LINES  /*pad is one third of screen*/
+#define		LEFT 		0
+#define		RIGHT		1
 
 
 struct pppaddle {
@@ -22,21 +24,20 @@ struct pppaddle {
 	@params 	none
 	@return 	void
 */
-void paddle_init();
-void paddle_init2();
+void paddle_init(struct pppaddle *paddle, int left_or_right);
 /*
 	Moves the paddle up one row. 
 	@params		none
 	@return 	void
 */
-void paddle_up();
+void paddle_up(struct pppaddle *paddle);
 
 /*
 	Moves the paddle down one row. 
 	@params 	none
 	@return 	void
 */
-void paddle_down();
+void paddle_down(struct pppaddle *paddle);
 
 /*
 	Checks if a given coordinate (usually the ball's) is in contact 
@@ -45,11 +46,5 @@ void paddle_down();
 				x: a given column posiiton.
 	@return		1 if in contact or 0 otherwise
 */
-void paddle_up2();
 
-
-void paddle_down2();
-
-int paddle_contact(int y,int x);
-
-int paddle_contact2(int y,int x);
+int paddle_contact(struct pppaddle paddle, int left_or_right, int y, int x);
