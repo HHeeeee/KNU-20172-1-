@@ -37,6 +37,18 @@ int main()
 	int c;
 	balls_left = INIT_BALLS-1; /* minus one ball currently in play */
 	int temp = balls_left;
+	int menu;
+	int level;
+	menu = display_menu();
+	if(display_menu()==1) // AI mode
+	{
+		level=option_menu();
+		if(level ==1) // EASY
+		else if(level==2)//NORMAL
+		else//HARD
+	}
+	else		      //multiplay 
+	{
 	set_up();
 	start_round(); //serves the balls and updates headers
 	while ( (c = getch()) != 'Q'  && balls_left >= 0){
@@ -59,6 +71,7 @@ int main()
 	}
 	wrap_up();
 	return 0;
+	}
 }
 
 /**
