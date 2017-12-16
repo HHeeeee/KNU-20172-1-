@@ -28,6 +28,9 @@ static int balls_left;
 static void change_ball_speed();
 static void move_ball();
 
+static struct pppaddle the_paddle;
+static struct pppaddle the_paddle2;
+static struct pppaddle AI_paddle;
 
 int main()
 {
@@ -38,16 +41,16 @@ int main()
 	start_round(); //serves the balls and updates headers
 	while ( (c = getch()) != 'Q'  && balls_left >= 0){
 		if (c=='k'){
-			paddle_up();
+			paddle_up(&the_paddle);
 		}
 		else if (c=='m'){
-			paddle_down();
+			paddle_down(&the_paddle);
 		}
 		else if (c=='a'){
-			paddle_up2();
+			paddle_up(&the_paddle2);
 		}
 		else if (c=='z'){
-			paddle_down2();
+			paddle_down(&the_paddle2);
 		}
 		if((temp - balls_left) >= 1){ //lost a ball?
 			start_round(); //restart round
@@ -85,8 +88,8 @@ void set_up()
 	noecho();		/* turn off echo	*/
 	cbreak();		/* turn off buffering	*/
 	init_walls();
-	paddle_init();
-	paddle_init2();
+	paddle_init(&the_paddle, RIGHT);
+	paddle_init(&the_paddle2, LEFT);
 	clock_init();
 	print_headers();
 
@@ -277,13 +280,13 @@ int bounce_or_lose(struct ppball *bp)
 		bp->y_dir = -1; //change direction
 		return_val = 1;
 	}
-	if  (paddle_contact2(bp->y_pos,bp->x_pos)){
+	if  (paddle_contact(the_paddle2, LEFT, bp->y_pos,bp->x_pos)){
 		//ball bounces off left wall
 		bp->x_dir = 1;	//change direction
 		return_val = 1 ;
 		change_ball_speed();
 	}
-	else if (paddle_contact(bp->y_pos,bp->x_pos)){
+	else if (paddle_contact(the_paddle, RIGHT, bp->y_pos,bp->x_pos)){
 		//ball bounces off paddle
 		bp->x_dir = -1; //change direction
 		return_val = 1;
@@ -305,4 +308,3 @@ int bounce_or_lose(struct ppball *bp)
 		// }		
 	return return_val;	
 }
-

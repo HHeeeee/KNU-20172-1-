@@ -18,28 +18,21 @@
 #include	"paddle.h"
 #include	"pong.h"
 
-
-struct pppaddle the_paddle;
 /*
 	Initialize the paddle's properties
 	@params 	none
 	@return 	void
 */
-void paddle_init(){
-	the_paddle.pad_top = START_TOP;
-	the_paddle.pad_bot = the_paddle.pad_top + PAD_LEN;
-	the_paddle.pad_col = RIGHT_EDGE - 1;
-	the_paddle.pad_char =  PAD_SYMBOL;
+void paddle_init(struct pppaddle *paddle, int left_or_right){ // 2-player-mode user
+	paddle->pad_top = START_TOP;
+	paddle->pad_bot = paddle->pad_top + PAD_LEN;
+	if(left_or_right == RIGHT)
+		paddle->pad_col = RIGHT_EDGE - 1;
+	else
+		paddle->pad_col = LEFT_EDGE;
+	paddle->pad_char =  PAD_SYMBOL;
 
-	mvvline(the_paddle.pad_top,the_paddle.pad_col,the_paddle.pad_char,PAD_LEN);
-}
-void paddle_init2(){
-	the_paddle.pad_top2 = START_TOP;
-	the_paddle.pad_bot2 = the_paddle.pad_top2 + PAD_LEN;
-	the_paddle.pad_col2 = LEFT_EDGE -1;
-	the_paddle.pad_char2 = PAD_SYMBOL;
-
-	mvvline(the_paddle.pad_top2,the_paddle.pad_col2,the_paddle.pad_char2,PAD_LEN);
+	mvvline(paddle->pad_top,paddle->pad_col,paddle->pad_char,PAD_LEN);
 }
 
 /*
@@ -47,22 +40,22 @@ void paddle_init2(){
 	@params		none
 	@return 	void
 */
-void paddle_up(){
+void paddle_up(struct pppaddle *paddle){
 	int bot_cur, moved;
 
 	moved = 0;
 
 	//check if pad_top is not trying to go outside the court
-	if((the_paddle.pad_top-1)>TOP_ROW){
-		bot_cur = the_paddle.pad_bot;
-		the_paddle.pad_top-=1;
-		the_paddle.pad_bot-=1;
+	if((paddle->pad_top-1)>TOP_ROW){
+		bot_cur = paddle->pad_bot;
+		paddle->pad_top-=1;
+		paddle->pad_bot-=1;
 		moved = 1;		
 	} 
 
 	if (moved){
-		mvaddch(the_paddle.pad_top, the_paddle.pad_col, the_paddle.pad_char);
-		mvaddch(bot_cur, the_paddle.pad_col, BLANK);
+		mvaddch(paddle->pad_top, paddle->pad_col, paddle->pad_char);
+		mvaddch(bot_cur, paddle->pad_col, BLANK);
 	}	
 }
 
@@ -71,79 +64,36 @@ void paddle_up(){
 	@params 	none
 	@return 	void
 */
-void paddle_down(){
+void paddle_down(struct pppaddle *paddle){
 	int top_cur, moved;
 
 	moved = 0;
 
 	//check if pad_top is not trying to go outside the court
-	if((the_paddle.pad_bot+1)<BOT_ROW){
-		top_cur = the_paddle.pad_top;
-		the_paddle.pad_top+=1;
-		the_paddle.pad_bot+=1;
+	if((paddle->pad_bot+1)<BOT_ROW){
+		top_cur = paddle->pad_top;
+		paddle->pad_top+=1;
+		paddle->pad_bot+=1;
 		moved = 1;		
 	} 
 
 	if (moved){
-		mvaddch(the_paddle.pad_bot, the_paddle.pad_col, the_paddle.pad_char);
-		mvaddch(top_cur, the_paddle.pad_col, BLANK);
+		mvaddch(paddle->pad_bot, paddle->pad_col, paddle->pad_char);
+		mvaddch(top_cur, paddle->pad_col, BLANK);
 	}
 	
 }
-void paddle_up2(){
-	int bot_cur, moved;
 
-	moved = 0;
-
-	//check if pad_top is not trying to go outside the court
-	if((the_paddle.pad_top2-1)>TOP_ROW){
-		bot_cur = the_paddle.pad_bot2;
-		the_paddle.pad_top2-=1;
-		the_paddle.pad_bot2-=1;
-		moved = 1;		
-	} 
-
-	if (moved){
-		mvaddch(the_paddle.pad_top2, the_paddle.pad_col2, the_paddle.pad_char2);
-		mvaddch(bot_cur, the_paddle.pad_col2, BLANK);
-	}	
-}
-
-/*
-	Moves the paddle down one row. 
-	@params 	none
-	@return 	void
-*/
-void paddle_down2(){
-	int top_cur, moved;
-
-	moved = 0;
-
-	//check if pad_top is not trying to go outside the court
-	if((the_paddle.pad_bot2+1)<BOT_ROW){
-		top_cur = the_paddle.pad_top2;
-		the_paddle.pad_top2+=1;
-		the_paddle.pad_bot2+=1;
-		moved = 1;		
-	} 
-
-	if (moved){
-		mvaddch(the_paddle.pad_bot2, the_paddle.pad_col2, the_paddle.pad_char2);
-		mvaddch(top_cur, the_paddle.pad_col2, BLANK);
-	}
-	
-}
-/*
-	Checks if a given coordinate (usually the ball's) is in contact 
-	with the paddle.
-	@params		y: a given row position,
-				x: a given column posiiton.
-	@return		1 if in contact or 0 otherwise
-*/
-int paddle_contact(int y,int x){
+int paddle_contact(struct pppaddle paddle,int left_or_right, int y, int x){
 	int i;
-	if (x+2 == RIGHT_EDGE){
-		for (i=the_paddle.pad_top; i<=the_paddle.pad_bot; i++){
+	if (x+2 == RIGHT_EDGE && left_or_right == RIGHT){
+		for (i=paddle.pad_top; i<=paddle.pad_bot; i++){
+			if (y == i){
+				return 1;
+			}
+		}
+	} else if(x-1 == LEFT_EDGE && left_or_right == LEFT) {
+		for (i=paddle.pad_top; i<=paddle.pad_bot; i++){
 			if (y == i){
 				return 1;
 			}
@@ -151,16 +101,3 @@ int paddle_contact(int y,int x){
 	}
 	return 0;
 }
-int paddle_contact2(int y,int x){
-	int i;
-	if(x-2 == LEFT_EDGE){
-		for(i=the_paddle.pad_top2;i<=the_paddle.pad_bot2;i++){
-			if(y==i){
-				return 1;
-			}
-		}
-	}
-	return 0;
-}
-
-
