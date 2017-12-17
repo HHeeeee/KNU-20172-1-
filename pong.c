@@ -309,9 +309,11 @@ int bounce_or_lose(struct ppball *bp)
 	}
 	else if ((bp->x_pos+1) == RIGHT_EDGE ){
 		//no paddle contact: ball lose
+		scoreA++;
 		return_val = -1; 
 	}
 	else if ((bp->x_pos-1)==LEFT_EDGE){
+		scoreB++;
 		return_val = -1;
 	}
 		// (bp->x_pos+2) == RIGHT_EDGE ){
