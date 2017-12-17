@@ -1,3 +1,4 @@
+#include "paddle.h"
 #define EASY 1
 #define NORMAL 2
 #define HARD 3

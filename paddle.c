@@ -92,7 +92,7 @@ int paddle_contact(struct pppaddle paddle,int left_or_right, int y, int x){
 				return 1;
 			}
 		}
-	} else if(x-1 == LEFT_EDGE && left_or_right == LEFT) {
+	} else if(x-2 == LEFT_EDGE && left_or_right == LEFT) {
 		for (i=paddle.pad_top; i<=paddle.pad_bot; i++){
 			if (y == i){
 				return 1;

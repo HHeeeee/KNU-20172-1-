@@ -1,7 +1,6 @@
 #include "AI.h"
-#include "paddle.h"
 #include "pong.h"
-
+extern struct ppball the_ball;
 void AI(struct pppaddle *AIpaddle, int difficulty) {
 	int i;
 	

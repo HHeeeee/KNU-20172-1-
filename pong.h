@@ -6,6 +6,7 @@
 #include	<string.h>
 #include	"alarmlib.h"
 #include 	<termios.h>
+#include	<time.h>
 
 #define	BLANK		' '
 #define	DFL_SYMBOL	'O'

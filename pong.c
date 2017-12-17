@@ -19,44 +19,42 @@
  */
 
 #include	"pong.h"
-#include	"paddle.h"
+#include	"AI.h"
 #include	"clocktimer.h"
 
-static struct ppball the_ball;
+struct ppball the_ball;
 static int balls_left;
 
 static void change_ball_speed();
 static void move_ball();
 
+extern int display_menu();
+extern int option_menu();
+
 static struct pppaddle the_paddle;
 static struct pppaddle the_paddle2;
 static struct pppaddle AI_paddle;
 static int scoreA, scoreB;
+static int menu, level;
+static int cnt = 0;
 
 int main()
 {
 	int c;
 	balls_left = INIT_BALLS-1; /* minus one ball currently in play */
 	int temp = balls_left;
-	int menu;
-	int level;
 	menu = display_menu();
-	if(display_menu()==1) // AI mode
+	if(menu==1) // AI mode
 	{
 		level=option_menu();
-//		if(level ==1) // EASY
-//		else if(level==2)//NORMAL
-//		else//HARD
 	}
-	else		      //multiplay 
-	{
 	set_up();
 	start_round(); //serves the balls and updates headers
 	while ( (c = getch()) != 'Q'  && balls_left >= 0){
-		if (c=='k'){
+		if (c=='k' && menu == 2){
 			paddle_up(&the_paddle);
 		}
-		else if (c=='m'){
+		else if (c=='m' && menu == 2){
 			paddle_down(&the_paddle);
 		}
 		else if (c=='a'){
@@ -72,7 +70,6 @@ int main()
 	}
 	wrap_up();
 	return 0;
-	}
 }
 
 /**
@@ -104,6 +101,7 @@ void set_up()
 	init_walls();
 	paddle_init(&the_paddle, RIGHT);
 	paddle_init(&the_paddle2, LEFT);
+	paddle_init(&AI_paddle, RIGHT);
 	clock_init();
 	print_headers();
 
@@ -270,6 +268,10 @@ void sigarlm_handler(int s)
 
 	if (ball_moved){
 		move_ball();
+		if(menu == 1) {
+			if(cnt++ % 3 == 0)
+				AI(&AI_paddle, level);
+		}
 	}
 	signal(SIGALRM, sigarlm_handler);		/* re-enable handler	*/
 }
@@ -299,7 +301,7 @@ int bounce_or_lose(struct ppball *bp)
 		return_val = 1 ;
 		change_ball_speed();
 	}
-	else if (paddle_contact(the_paddle, RIGHT, bp->y_pos,bp->x_pos)){
+	else if (paddle_contact(menu == 1 ? AI_paddle : the_paddle, RIGHT, bp->y_pos,bp->x_pos)){
 		//ball bounces off paddle
 		bp->x_dir = -1; //change direction
 		return_val = 1;
