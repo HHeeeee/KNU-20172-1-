@@ -44,10 +44,7 @@ int main()
 	balls_left = INIT_BALLS-1; /* minus one ball currently in play */
 	int temp = balls_left;
 	menu = display_menu();
-	if(menu==1) // AI mode
-	{
-		level=option_menu();
-	}
+	level=option_menu(menu);
 	set_up();
 	start_round(); //serves the balls and updates headers
 	while ( (c = getch()) != 'Q'  && balls_left >= 0){
@@ -133,7 +130,8 @@ void update_left_header(int ballnum){
 	char char_array[header_len];
 	char ball_num = (char) balls_left; 
 
-	if(ballnum<0) return; //no need to update after game over.
+	if(ballnum<0) 
+	       game_over(scoreA,scoreB);	//no need to update after game over.
 
 	//build output string
 	snprintf(char_array,header_len,"SCORE   %d : %d",scoreA, scoreB);

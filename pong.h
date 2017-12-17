@@ -21,7 +21,7 @@
 #define	MAX_DELAY		4
 
 
-#define INIT_BALLS	5		/* Maximum number of balls is 9 */
+#define INIT_BALLS	2		/* Maximum number of balls is 9 */
 
 
 /**
