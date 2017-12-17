@@ -93,13 +93,13 @@ void game_over(int a,int b)
 {
 	system("clear");
 	printf("\n\t\t");
-	printf("\n\t\t\t  G A M E   O V E R\n");
+	printf("\n\t\t  G A M E   O V E R\n");
 	printf("\n\n\n");
-	printf("\r\n\t\t\t\t\t     %d    :    %d \n",a,b);
+	printf("\r\n\t\t\t\t     %d    :    %d \n",a,b);
 	printf("\n\n\n\n");
 	sleep(3);
 	system("clear");
-	return 0;
+	exit(0);
 }
 
 void set_noecho()
@@ -122,10 +122,3 @@ void tty_mode(int how)
 	else
 		tcsetattr(0,TCSANOW,&original_mode);
 }
-
-
-
-
-
-
-
