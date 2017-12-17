@@ -48,8 +48,8 @@ int option_menu(void)
 	system("clear");
 	tty_mode(0);
 	set_noecho();
-		printf("\n\t\t   	O P T I O N	\n");
-		printf("\n\t\t   	   조 작 법 \t\n");
+		printf("\n\t\t\t   	O P T I O N	\n");
+		printf("\n\t\t\t   	   조 작 법 \t\n");
 		printf("\t\t\t      | 1P |     | 2p |	\n");
 		printf("\t\t\t UP   | A  |     | K  | \n");
 		printf("\t\t\t DOWN | Z  |     | M  | \n");
@@ -81,14 +81,13 @@ void game_over(int a,int b)
 {
 	system("clear");
 	printf("\n\t\t");
-	printf("\n\n\t\t\t	 G A M E   O V E R\n");
-	printf("\n\n\t");
-	printf("\n\n\n\n\t\t	\t %d    :    %d\t\n",a,b);
-	printf("\n\n\n\n\n\n\n\n\n");
-	printf("\n\n\n\n\n\n\n\n\n");
+	printf("\n\t\t\t	 G A M E   O V E R\n");
+	printf("\n\n\n");
+	printf("\n\t\t\t	 %d    :    %d \n",a,b);
+	printf("\n\n\n\n");
 	sleep(3);
-	endwin();
 	system("clear");
+	return 0;
 }
 
 void set_noecho()
